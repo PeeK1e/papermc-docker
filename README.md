@@ -23,7 +23,7 @@ rcon.port=25575
 ```
 
 ## ⚙️ Other Versions
-I have pre-build some versions for `arm64` and `amd64` architectures which are available in the [GitLab Container Registry](https://gitlab.com/PeeK1e/paper-server/container_registry/8600059).
+I have pre-build some versions for `arm64` and `amd64` architectures which are available in the [GitLab Container Registry](https://gitlab.com/PeeK1e/paper-server/container_registry/8600507).
 
 Versions start from 1.24.1 but you can build older Versions too.
 
