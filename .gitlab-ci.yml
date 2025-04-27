@@ -34,10 +34,10 @@ build-container:
     # build the container image for the current arch using kaniko
     - >-
       /kaniko/executor
-      --cache=true
       --context "${CI_PROJECT_DIR}"
-      --build-arg "PAPER_URL=${PAPER_URL}"
+      --cache=true
       --cache-repo "${CI_REGISTRY_IMAGE}/buildcache"
+      --build-arg "PAPER_URL=${PAPER_URL}"
       --build-arg "OPENJDK_VERSION=${OPENJDK_VERSION}"
       --dockerfile "${CI_PROJECT_DIR}/build/Containerfile"
       --destination "${CI_REGISTRY_IMAGE}/paper:${ARCH}-${IMAGE_TAG}"
