@@ -54,7 +54,8 @@ merge-manifests:
     - >-
       manifest-tool push from-args
       --platforms linux/amd64,linux/arm64
-      --target ${CI_REGISTRY_IMAGE}/paper:${IMAGE_TAG}
       --template ${CI_REGISTRY_IMAGE}/build-ARCH:${IMAGE_TAG}
+      --target ${CI_REGISTRY_IMAGE}/paper
+      --tags ${IMAGE_TAG}
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
