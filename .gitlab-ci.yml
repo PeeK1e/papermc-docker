@@ -5,7 +5,7 @@ stages:
   - container-build
 
 variables:
-  PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/226/downloads/paper-1.21.4-226.jar"
+  PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar"
 
 # define a job for building the containers
 build-container:
