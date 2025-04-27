@@ -1,4 +1,5 @@
-FROM openjdk:24
+ARG OPENJDK_VERSION=24
+FROM openjdk:$OPENJDK_VERSION
 
 # Default values
 ARG PAPER_URL

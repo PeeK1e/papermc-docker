@@ -3,9 +3,18 @@ image:
 
 stages:
   - container-build
+  - merge
 
 variables:
-  PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar"
+  IMAGE_TAG:
+    value: "1.21.5"
+    description: "The Image tag to be used on builds"
+  PAPER_URL:
+    value: "https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar"
+    description: "The Paper URL"
+  OPENJDK_VERSION:
+    value: "24"
+    description: "The image tag that should be used for openjdk's image"
 
 # define a job for building the containers
 build-container:
@@ -27,8 +36,28 @@ build-container:
       /kaniko/executor \
         --context "${CI_PROJECT_DIR}" \
         --build-arg "PAPER_URL=${PAPER_URL}" \
+        --build-arg "OPENJDK_VERSION=${OPENJDK_VERSION}" \
         --dockerfile "${CI_PROJECT_DIR}/build/Containerfile" \
-        --destination "${CI_REGISTRY_IMAGE}/paper-container:${CI_COMMIT_TAG}-${ARCH}" \
-        --destination "${CI_REGISTRY_IMAGE}/paper-container:latest-${ARCH}"
+        --destination "${CI_REGISTRY_IMAGE}/build-${ARCH}:${CI_COMMIT_TAG}"
   rules:
-    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == web
+
+# define a job for creating and pushing a merged manifest
+merge-manifests:
+  stage: merge
+  # all containers must be build before merging them
+  # alternatively the job may be configured to run in a later stage
+  needs:
+    - job: container-build
+      artifacts: false
+  image:
+    name: mplatform/manifest-tool:alpine
+    entrypoint: [""]
+  script:
+    - >-
+      manifest-too push from-args \
+      --plattforms linux/amd64,linux/arm64 \
+      --template${CI_REGISTRY_IMAGE}/build-ARCH:${CI_COMMIT_TAG} \
+      --target ${CI_REGISTRY_IMAGE}/paper:${CI_COMMIT_TAG}
+  rules:
+    - if: $CI_PIPELINE_SOURCE == web
