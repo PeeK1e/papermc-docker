@@ -45,11 +45,6 @@ build-container:
 # define a job for creating and pushing a merged manifest
 merge-manifests:
   stage: merge
-  # all containers must be build before merging them
-  # alternatively the job may be configured to run in a later stage
-  needs:
-    - job: container-build
-      artifacts: false
   image:
     name: mplatform/manifest-tool:alpine
     entrypoint: [""]
