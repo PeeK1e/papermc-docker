@@ -1,7 +1,7 @@
 FROM openjdk:24
 
 # Default values
-ARG PAPER_URL=https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/226/downloads/paper-1.21.4-226.jar
+ARG PAPER_URL
 ARG MC_USER=mc
 ARG MC_HOME_DIR=/home/$MC_USER
 ARG MC_DATA_DIR=/home/$MC_USER/data
