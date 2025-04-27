@@ -8,10 +8,11 @@ Start it with `docker compose up -d`. The server will be available on `0.0.0.0:2
 
 ### ℹ️ The container has no CLI interface!
 **To modify your sever you need to edit the config files of the server and either `/reload` or restart the server**
-I will check in following updates, if i can bind the server tty to the container tty in following updates.
+
+I will check in following updates, if i can bind the paper-tty to the container-tty.
 
 ## ⚙️ Other Versions
-I have pre-build some versions for `arm64` and `amd64` architectures.
+I have pre-build some versions for `arm64` and `amd64` architectures which are available in the [GitLab Container Registry](https://gitlab.com/PeeK1e/paper-server/container_registry/8600059).
 
 Versions start from 1.24.1 but you can build older Versions too.
 
