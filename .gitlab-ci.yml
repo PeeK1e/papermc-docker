@@ -38,7 +38,7 @@ build-container:
         --build-arg "PAPER_URL=${PAPER_URL}" \
         --build-arg "OPENJDK_VERSION=${OPENJDK_VERSION}" \
         --dockerfile "${CI_PROJECT_DIR}/build/Containerfile" \
-        --destination "${CI_REGISTRY_IMAGE}/build-${ARCH}:${CI_COMMIT_TAG}"
+        --destination "${CI_REGISTRY_IMAGE}/build-${ARCH}:${IMAGE_TAG}"
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
 
@@ -52,7 +52,7 @@ merge-manifests:
     - >-
       manifest-too push from-args \
       --plattforms linux/amd64,linux/arm64 \
-      --template${CI_REGISTRY_IMAGE}/build-ARCH:${CI_COMMIT_TAG} \
-      --target ${CI_REGISTRY_IMAGE}/paper:${CI_COMMIT_TAG}
+      --template${CI_REGISTRY_IMAGE}/build-ARCH:${IMAGE_TAG} \
+      --target ${CI_REGISTRY_IMAGE}/paper:${IMAGE_TAG}
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
