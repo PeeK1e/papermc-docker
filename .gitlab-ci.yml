@@ -40,7 +40,7 @@ build-container:
         --dockerfile "${CI_PROJECT_DIR}/build/Containerfile" \
         --destination "${CI_REGISTRY_IMAGE}/build-${ARCH}:${CI_COMMIT_TAG}"
   rules:
-    - if: $CI_PIPELINE_SOURCE == web
+    - if: $CI_PIPELINE_SOURCE == "web"
 
 # define a job for creating and pushing a merged manifest
 merge-manifests:
@@ -60,4 +60,4 @@ merge-manifests:
       --template${CI_REGISTRY_IMAGE}/build-ARCH:${CI_COMMIT_TAG} \
       --target ${CI_REGISTRY_IMAGE}/paper:${CI_COMMIT_TAG}
   rules:
-    - if: $CI_PIPELINE_SOURCE == web
+    - if: $CI_PIPELINE_SOURCE == "web"
