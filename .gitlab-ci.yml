@@ -50,7 +50,7 @@ merge-manifests:
     entrypoint: [""]
   script:
     - >-
-      manifest-too push from-args \
+      manifest-tool push from-args \
       --plattforms linux/amd64,linux/arm64 \
       --template${CI_REGISTRY_IMAGE}/build-ARCH:${IMAGE_TAG} \
       --target ${CI_REGISTRY_IMAGE}/paper:${IMAGE_TAG}
