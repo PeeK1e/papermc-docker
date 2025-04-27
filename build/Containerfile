@@ -1,0 +1,22 @@
+FROM openjdk:24
+
+# Default values
+ARG PAPER_URL=https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/226/downloads/paper-1.21.4-226.jar
+ARG MC_USER=mc
+ARG MC_HOME_DIR=/home/$MC_USER
+ARG MC_DATA_DIR=/home/$MC_USER/data
+
+RUN useradd -mUu 10001 ${MC_USER}
+
+USER ${MC_USER}
+WORKDIR ${MC_HOME_DIR}
+
+RUN echo ${MC_HOME_DIR}; echo ${MC_DATA_DIR}
+
+RUN curl -o paper.jar -sL "${PAPER_URL}" && \
+    mkdir ${MC_DATA_DIR}
+
+WORKDIR ${MC_DATA_DIR}
+
+EXPOSE 25565
+ENTRYPOINT [ "/bin/bash", "-c", "/usr/bin/java -Xmx${MEMORY_LIMIT:-500m} -Xms${MEMORY_START:-100m} -jar /home/mc/paper.jar" ]

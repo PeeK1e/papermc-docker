@@ -1,0 +1,44 @@
+services:
+  fix_volume_permission:
+    image: busybox
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["chown -R 10001:10001 /data"]
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+        bind:
+          create_host_path: true
+  accept_eula:
+    image: busybox
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - echo -e '# EULA (https://aka.ms/MinecraftEULA)\neula=true' > /data/eula.txt
+      - echo hi
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+    depends_on:
+      - fix_volume_permission
+  mc:
+    container_name: paper_server
+    build:
+      context: ./build
+      dockerfile: Containerfile
+    image: registry.gitlab.com/peek1e/paper-server/paper-container:latest
+    user: "10001"
+    ports:
+      - 25565:25565
+    environment:
+      MEMORY_LIMIT: 2000m
+      MEMORY_START: 500m
+    volumes:
+      - type: bind
+        source: ./data
+        target: /home/mc/data
+    depends_on:
+      - accept_eula
+      - fix_volume_permission
+volumes:
+  data:
