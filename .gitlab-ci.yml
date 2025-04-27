@@ -50,7 +50,12 @@ merge-manifests:
   image:
     name: mplatform/manifest-tool:alpine
     entrypoint: [""]
+  variables:
+    DOCKER_AUTH: "${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}"
   script:
+    - mkdir -p ~/.docker
+    - |
+      echo "{\"auths\": {\"$CI_REGISTRY\": {\"auth\": \"$(echo -n $DOCKER_AUTH | base64)\"}}}" > ~/.docker/config.json
     - >-
       manifest-tool push from-args
       --platforms linux/amd64,linux/arm64
