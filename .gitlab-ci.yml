@@ -26,7 +26,7 @@ build-container:
     - |
       /kaniko/executor \
         --context "${CI_PROJECT_DIR}" \
-        --build-arg "PAPER_URL=${PAPER_URL}"
+        --build-arg "PAPER_URL=${PAPER_URL}" \
         --dockerfile "${CI_PROJECT_DIR}/build/Containerfile" \
         --destination "${CI_REGISTRY_IMAGE}/paper-container:${CI_COMMIT_TAG}-${ARCH}" \
         --destination "${CI_REGISTRY_IMAGE}/paper-container:latest-${ARCH}"
