@@ -29,14 +29,38 @@ stages:
     PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.14.4/builds/245/downloads/paper-1.14.4-245.jar"
     OPENJDK_VERSION: 13
 
-# define a job for building the containers
-build-container:
+build-container-arm64:
   stage: container-build
-  # run parallel builds for the desired architectures
+  variables:
+    ARCH: arm64
   parallel:
     matrix: *matrix
   tags:
-    # run each build on a suitable, preconfigured runner (must match the target architecture)
+    -  saas-linux-small-${ARCH}
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    # build the container image for the current arch using kaniko
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --cache=true
+      --cache-repo "${CI_REGISTRY_IMAGE}/buildcache"
+      --build-arg "PAPER_URL=${PAPER_URL}"
+      --build-arg "OPENJDK_VERSION=${OPENJDK_VERSION}"
+      --dockerfile "${CI_PROJECT_DIR}/build/Containerfile"
+      --destination "${CI_REGISTRY_IMAGE}/build:${ARCH}-${IMAGE_TAG}"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+build-container-amd64:
+  stage: container-build
+  variables:
+    ARCH: amd64
+  parallel:
+    matrix: *matrix
+  tags:
     -  saas-linux-small-${ARCH}
   image:
     name: gcr.io/kaniko-project/executor:debug
