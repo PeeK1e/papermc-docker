@@ -1,7 +1,7 @@
 ARG OPENJDK_VERSION=24
 FROM openjdk:$OPENJDK_VERSION
 
-# Default values
+# Buildtime arguments
 ARG PAPER_URL
 ARG MC_USER=mc
 ARG MC_HOME_DIR=/home/$MC_USER
@@ -20,4 +20,7 @@ RUN curl -o paper.jar -sL "${PAPER_URL}" && \
 WORKDIR ${MC_DATA_DIR}
 
 EXPOSE 25565
-ENTRYPOINT [ "/bin/bash", "-c", "/usr/bin/java -Xmx${MEMORY_LIMIT:-500m} -Xms${MEMORY_START:-100m} -jar /home/mc/paper.jar" ]
+# This is used as the default entrypoint
+ENTRYPOINT [ "/bin/bash", "-c" ]
+# Users may modify flags and launch options but should use defaults instead
+CMD [ "/usr/bin/java -Xmx${MEMORY_LIMIT:-500m} -Xms${MEMORY_START:-100m} -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=8M -XX:G1HeapWastePercent=5 -XX:G1MaxNewSizePercent=40 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1NewSizePercent=30 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -XX:MaxGCPauseMillis=200 -XX:MaxTenuringThreshold=1 -XX:SurvivorRatio=32 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${HOME}/paper.jar nogui" ]
