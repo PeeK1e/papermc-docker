@@ -25,7 +25,7 @@ Start it with `docker compose up -d`. The server will be available on `0.0.0.0:2
 
 
 ## ⚙️ Other Versions
-I have pre-build some versions for `arm64` and `amd64` architectures which are available in the [GitLab Container Registry](https://gitlab.com/PeeK1e/paper-server/container_registry/8600507).
+I have pre-build some versions for `arm64` and `amd64` architectures which are available in the [GitLab Container Registry](https://gitlab.com/PeeK1e/paper-server/container_registry/8600507?orderBy=NAME&sort=desc).
 
 But you can build other/custom versions too:
 1. Clone the repo
