@@ -29,7 +29,7 @@ services:
     #   dockerfile: Containerfile
     #   args:
     #     - PAPER_URL=https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar
-    image: registry.gitlab.com/peek1e/paper-server/paper:1.16.5
+    image: registry.gitlab.com/peek1e/paper-server/paper:1.21.5
     user: "10001"
     ports:
       - 25565:25565
