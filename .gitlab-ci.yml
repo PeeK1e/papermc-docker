@@ -21,7 +21,7 @@ stages:
     OPENJDK_VERSION: 17
   - IMAGE_TAG: "1.16.5"
     PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.16.5/builds/794/downloads/paper-1.16.5-794.jar"
-    OPENJDK_VERSION: 17
+    OPENJDK_VERSION: 16
 
 build-container-arm64:
   stage: container-build
