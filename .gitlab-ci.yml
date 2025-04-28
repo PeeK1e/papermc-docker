@@ -1,29 +1,40 @@
-image:
-  name: gcr.io/kaniko-project/executor:debug
-
 stages:
   - container-build
   - merge
 
-variables:
-  IMAGE_TAG:
-    value: "1.21.5"
-    description: "The Image tag to be used on builds"
-  PAPER_URL:
-    value: "https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar"
-    description: "The Paper URL"
-  OPENJDK_VERSION:
-    value: "24"
-    description: "The image tag that should be used for openjdk's image"
+# This defines the images to build
+.matrix: &matrix
+  - IMAGE_TAG: "1.21.5"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar"
+    OPENJDK_VERSION: 24
+  - IMAGE_TAG: "1.20.5"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.20.6/builds/151/downloads/paper-1.20.6-151.jar"
+    OPENJDK_VERSION: 24
+  - IMAGE_TAG: "1.19.4"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar"
+    OPENJDK_VERSION: 24
+  - IMAGE_TAG: "1.18.2"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.18.2/builds/388/downloads/paper-1.18.2-388.jar"
+    OPENJDK_VERSION: 24
+  - IMAGE_TAG: "1.17.1"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.17.1/builds/411/downloads/paper-1.17.1-411.jar"
+    OPENJDK_VERSION: 17
+  - IMAGE_TAG: "1.16.5"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.16.5/builds/794/downloads/paper-1.16.5-794.jar"
+    OPENJDK_VERSION: 17
+  - IMAGE_TAG: "1.15.2"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.15.2/builds/393/downloads/paper-1.15.2-393.jar"
+    OPENJDK_VERSION: 14
+  - IMAGE_TAG: "1.14.4"
+    PAPER_URL: "https://api.papermc.io/v2/projects/paper/versions/1.14.4/builds/245/downloads/paper-1.14.4-245.jar"
+    OPENJDK_VERSION: 13
 
 # define a job for building the containers
 build-container:
   stage: container-build
   # run parallel builds for the desired architectures
   parallel:
-    matrix:
-      - ARCH: amd64
-      - ARCH: arm64
+    matrix: *matrix
   tags:
     # run each build on a suitable, preconfigured runner (must match the target architecture)
     -  saas-linux-small-${ARCH}
@@ -47,6 +58,8 @@ build-container:
 # define a job for creating and pushing a merged manifest
 merge-manifests:
   stage: merge
+  parallel:
+    matrix: *matrix
   image:
     name: mplatform/manifest-tool:alpine
     entrypoint: [""]
