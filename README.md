@@ -33,6 +33,7 @@ But you can build other/custom versions too:
 3. Replace `PAPER_URL` in the `compose.yaml` in the `services.mc.build` section
 4. Rebuild the container with `docker compose build`
 
+Note: OpenJDK's availability on ARM64 below version 17 is very limited. That's why pre-build versions are not available.
 
 ## 🔧 Modifying Launch Options
 **THIS IS STRONGLY DISCOURAGED**
