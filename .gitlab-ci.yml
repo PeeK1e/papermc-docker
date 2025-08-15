@@ -4,6 +4,9 @@ stages:
   - container-build
   - merge
 
+variables:
+  OPENJDK_VERSION: '24'
+
 build-container-img:
   stage: prepare
   variables:
