@@ -37,8 +37,7 @@ fetch-version:
     entrypoint: [""]
   script:
     # build the container image for the current arch using kaniko
-    - |
-      bash ./getpaper.sh
+    - sh ./getpaper.sh
   artifacts:
     reports:
       dotenv: .dotenv
