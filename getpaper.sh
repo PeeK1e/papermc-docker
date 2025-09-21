@@ -2,7 +2,10 @@
 
 set -euxo pipefail
 
-echo "" > .dotenv
+FILE=".dotenv"
+
+rm $FILE
+touch $FILE
 
 PAPER_VERSION="$(curl --silent -X 'GET' 'https://fill.papermc.io/v3/projects/paper/versions' -H 'accept: application/json' | jq '.versions[0].version.id' -r)"
 
@@ -14,5 +17,5 @@ PAPER_BUILD_URL="$(echo ${PAPER_LATEST_INFO} | jq '.downloads."server:default".u
 
 CONTAINER_TAG="${PAPER_VERSION}" #-${PAPER_BUILD_ID}"
 
-echo "PAPER_URL=${PAPER_BUILD_URL}" >> .dotenv
-echo "IMAGE_TAG=${CONTAINER_TAG}" >> .dotenv
+echo "PAPER_URL=${PAPER_BUILD_URL}" >> $FILE
+echo "IMAGE_TAG=${CONTAINER_TAG}" >> $FILE
