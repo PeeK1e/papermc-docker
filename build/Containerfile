@@ -3,19 +3,20 @@ FROM openjdk:$OPENJDK_VERSION
 
 # Buildtime arguments
 ARG PAPER_URL
+ARG MC_USER_ID=10001
 ARG MC_USER=mc
 ARG MC_HOME_DIR=/home/$MC_USER
 ARG MC_DATA_DIR=/home/$MC_USER/data
 
-RUN useradd -mUu 10001 ${MC_USER}
+RUN useradd -lmUu ${MC_USER_ID} ${MC_USER}
 
 USER ${MC_USER}
 WORKDIR ${MC_HOME_DIR}
 
-RUN echo ${MC_HOME_DIR}; echo ${MC_DATA_DIR}
+# RUN echo ${PAPER_URL} && echo ${MC_HOME_DIR} && echo ${MC_DATA_DIR}
 
 RUN curl -o paper.jar -sL "${PAPER_URL}" && \
-    mkdir ${MC_DATA_DIR}
+mkdir ${MC_DATA_DIR}
 
 WORKDIR ${MC_DATA_DIR}
 

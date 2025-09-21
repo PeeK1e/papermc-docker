@@ -23,13 +23,13 @@ services:
       - fix_volume_permission
   mc:
     container_name: paper_server
-    # # change this if you need a specific version
-    # build:
-    #   context: ./build
-    #   dockerfile: Containerfile
-    #   args:
-    #     - PAPER_URL=https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/40/downloads/paper-1.21.5-40.jar
-    image: registry.gitlab.com/peek1e/paper-server/paper:1.21.5
+    # change this if you need a specific version
+    build:
+      context: ./build
+      dockerfile: Containerfile
+      args:
+        - PAPER_URL=${PAPER_URL}
+    image: registry.gitlab.com/peek1e/paper-server/paper:local
     user: "10001"
     ports:
       - 25565:25565

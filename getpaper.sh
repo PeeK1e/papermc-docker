@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-FILE=".dotenv"
+FILE=".env"
 
 rm $FILE || true
 touch $FILE

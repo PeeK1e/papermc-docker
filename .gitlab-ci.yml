@@ -40,7 +40,7 @@ fetch-version:
     - sh ./getpaper.sh
   artifacts:
     reports:
-      dotenv: .dotenv
+      dotenv: .env
 
 build-container-arm64:
   stage: container-build
