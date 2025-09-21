@@ -4,7 +4,7 @@ set -euxo pipefail
 
 FILE=".dotenv"
 
-rm $FILE
+rm $FILE || true
 touch $FILE
 
 PAPER_VERSION="$(curl --silent -X 'GET' 'https://fill.papermc.io/v3/projects/paper/versions' -H 'accept: application/json' | jq '.versions[0].version.id' -r)"
