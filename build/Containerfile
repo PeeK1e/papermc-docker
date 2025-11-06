@@ -1,5 +1,11 @@
 ARG OPENJDK_VERSION
-FROM docker.io/eclipse-temurin:$OPENJDK_VERSION
+FROM docker.io/eclipse-temurin:$OPENJDK_VERSION 
+
+# add curl
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt && \
+    rm -rf /var/cache/apt
 
 # Buildtime arguments
 ARG PAPER_URL
